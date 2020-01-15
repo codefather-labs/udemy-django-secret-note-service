@@ -1,0 +1,42 @@
+version: '3'
+
+services:
+  django:
+    container_name: django.secret.note
+    restart: always
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.backend
+    volumes:
+      - .:/app
+    ports:
+      - 8005:8005
+    networks:
+      backend:
+        ipv4_address: 172.25.0.2
+    command: python3 /app/manage.py runserver 0.0.0.0:8005
+
+  aiohttp:
+    container_name: aiohttp.secret.note
+    restart: always
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.backend
+    ports:
+      - 8888:8888
+    depends_on:
+      - django
+
+    networks:
+      backend:
+        ipv4_address: 172.25.0.3
+    command: python3 /app/async_server.py
+
+networks:
+  backend:
+    ipam:
+      config:
+        - subnet: 172.25.0.0/16
+
+volumes:
+  app: {}
