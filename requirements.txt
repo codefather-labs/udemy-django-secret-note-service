@@ -5,7 +5,7 @@ attrs==19.3.0
 certifi==2019.11.28
 chardet==3.0.4
 Django==2.2.8
-djangorestframework==3.11.0
+djangorestframework==3.11.2
 idna==2.8
 multidict==4.7.4
 pyaes==1.6.1
